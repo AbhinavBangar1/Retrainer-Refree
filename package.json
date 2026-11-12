@@ -1,0 +1,52 @@
+{
+  "name": "retainer-referee-backend",
+  "version": "1.0.0",
+  "description": "Retainer Referee - Self-enforcing website retainer contracts backed by PayPal authorizations and deterministic SLA probing",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:agency": "vite build agency",
+    "build:client": "vite build client",
+    "build:landing": "vite build landing",
+    "build:all": "tsc && vite build agency && vite build client && vite build landing",
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon --watch src --ext ts --exec ts-node src/index.ts",
+    "dev:landing": "vite landing --port 3002 --host",
+    "dev:agency": "vite agency --port 3000 --host",
+    "dev:client": "vite client --port 3001 --host",
+    "test:loop": "ts-node tests/verify_core_loop.ts"
+  },
+  "keywords": [
+    "paypal",
+    "sla",
+    "retainer",
+    "uptime",
+    "authorization"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pdfkit": "^0.15.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.13.1",
+    "@types/pdfkit": "^0.13.9",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "nodemon": "^3.1.9",
+    "playwright": "^1.65.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3",
+    "vite": "^8.3.6"
+  }
+}
