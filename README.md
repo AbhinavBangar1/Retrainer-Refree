@@ -8,6 +8,58 @@ AI reads the contract. Code decides the money.
 
 ---
 
+## System Architecture
+
+```mermaid
+flowchart TD
+    subgraph UI ["User Interfaces"]
+        Agency["Agency Portal (Port 3000)"]
+        Client["Client Portal (Port 3001)"]
+        Landing["Landing Page (Port 3002)"]
+    end
+
+    subgraph LLM ["AI Ambiguity Layer (Read-Only)"]
+        Prompt["Unstructured Proposal / Chat Thread"]
+        Parser["Gemini 1.5 Pro / GPT-4o with Zod Validation"]
+        Prompt --> Parser
+    end
+
+    subgraph Engine ["Deterministic TypeScript Core (Port 5000)"]
+        Linter["SLA Contract Linter (Overlap & Inversion Checks)"]
+        Prober["Minute-by-Minute Telemetry Prober (HTTP + SSL)"]
+        DB[(Native SQLite WAL)]
+        Math["Settle Engine (Pure Compiled Uptime Formula)"]
+        PDF["PDFKit Statement Generator (SHA-256 Digest)"]
+    end
+
+    subgraph PayPal ["PayPal Platform (Orders & Payments v2)"]
+        Auth["Orders v2: intent=AUTHORIZE ($0 Charged Upfront)"]
+        Capture["Payments v2: Partial Capture to Agency ($720)"]
+        Void["Payments v2: Authorization Void / Release to Client ($80)"]
+    end
+
+    subgraph Agent ["Agentic Commerce (MCP)"]
+        MCPServer["Model Context Protocol Server"]
+        Guardrails["Enforced Guardrails (No Amount Input Allowed)"]
+        AuditLedger["Immutable Audit Log"]
+        MCPServer --> Guardrails --> AuditLedger
+    end
+
+    %% Workflow Connections
+    Agency --> Prompt
+    Parser --> Linter --> DB
+    Client --> Auth
+    Auth --> DB
+    Prober --> DB
+    DB --> Math
+    Math --> Capture
+    Math --> Void
+    Math --> PDF
+    Engine <--> MCPServer
+```
+
+---
+
 ## Why this exists
 
 Website retainer agreements and hosting SLAs run on manual honor systems:
